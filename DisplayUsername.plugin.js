@@ -1,0 +1,129 @@
+/**
+ * @name DisplayUsername
+ * @source https://github.com/HudsonGTV/DisplayUsername/
+ * @author HG
+ * @authorId 124667638298181632
+ * @description Displays Discord handle next to display name and adds '`@`' symbol in profile card.
+ * @version 1.0.0
+ * @website https://hudsongreen.com/
+ * @invite https://discord.gg/H3bebA97tV
+ * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
+ */
+ 
+const request = require("request");
+const fs = require("fs");
+const path = require("path");
+
+const config = {
+	info: {
+		name: "DisplayUsername",
+		authors: [
+		{	
+			name: "@hg"
+			}
+		],
+		version: "1.0.0",
+		description: "Displays Discord handle next to display name and adds '`@`' symbol in profile card.",
+		github_raw: "https://raw.githubusercontent.com/HudsonGTV/DisplayUsername/DisplayUsername.plugin.js"
+	},
+	changelog: [
+		{
+			title: "Changes",
+			type: "changed",
+			items: [
+				"Added support for displaying usernames next to display name."
+			]
+		}
+	],
+	defaultConfig: []
+};
+
+module.exports = !global.ZeresPluginLibrary ? class {
+	
+	constructor() {
+		this._config = config;
+	}
+	
+	load() {
+        BdApi.showConfirmationModal("Library plugin is needed",
+            `The library plugin needed for AQWERT'sPluginBuilder is missing. Please click Download Now to install it.`, {
+            confirmText: "Download",
+            cancelText: "Cancel",
+            onConfirm: () => {
+                request.get("https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js", (error, response, body) => {
+                    if (error)
+                        return electron.shell.openExternal("https://betterdiscord.net/ghdl?url=https://raw.githubusercontent.com/rauenzi/BDPluginLibrary/master/release/0PluginLibrary.plugin.js");
+
+                    fs.writeFileSync(path.join(BdApi.Plugins.folder, "0PluginLibrary.plugin.js"), body);
+                });
+            }
+        });
+    }
+	
+	start() { }
+	stop() { }
+	
+	// Detect View Switch
+	onSwitch() {
+		console.log("[DisplayUsername] [Debug]: Switched view!");
+	}
+	
+} : (([Plugin, Library]) => {
+	
+	const { DiscordModules, WebpackModules, Patcher, PluginUtilities } = Library;
+	const { React } = DiscordModules;
+	
+	class plugin extends Plugin {
+		
+		constructor() {
+            super();
+        }
+
+
+        onStart() {
+			
+			this.patch();
+
+            PluginUtilities.addStyle(
+				"HG_DisplayUsernameCSS", 
+				`
+				.info-3ddo6z::before {
+					color: #777;
+					content: "@";
+				}
+				.hg-username-handle {
+					margin-left: 0.5rem;
+					font-size: 0.75rem;
+				}
+				.hg-username-handle::after {
+					margin-left: 0.25rem;
+					content: "•";
+				}
+				span.timestamp-p1Df1m {
+					margin-left: 0rem;
+				}
+				`
+			);
+        }
+
+        onStop() {
+            Patcher.unpatchAll();
+            PluginUtilities.removeStyle("HG_DisplayUsernameCSS");
+        }
+		
+		patch() {
+			const [ module, key ] = BdApi.Webpack.getWithKey(BdApi.Webpack.Filters.byStrings("userOverride", "withMentionPrefix"), { searchExports: false });
+			Patcher.after(module, key, (_, args, ret) => {
+				let author = args[0].message.author;
+				console.log(author);
+				ret.props.children.push(
+					React.createElement("span", { class: "hg-username-handle" }, "@" + author.username)
+				);
+			});
+		}
+		
+	}
+	
+	return plugin;
+	
+})(global.ZeresPluginLibrary.buildPlugin(config));
