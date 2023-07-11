@@ -4,7 +4,7 @@
  * @author HG
  * @authorId 124667638298181632
  * @description Displays Discord handle next to display name and adds '`@`' symbol in profile card.
- * @version 1.0.1
+ * @version 1.0.2
  * @website https://hudsongreen.com/
  * @invite https://discord.gg/H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
