@@ -1,10 +1,10 @@
 /**
  * @name DisplayUsername
- * @source https://github.com/HudsonGTV/DisplayUsername/
+ * @source https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js
  * @author HG
  * @authorId 124667638298181632
  * @description Displays Discord handle next to display name and adds '`@`' symbol in profile card.
- * @version 1.0.0
+ * @version 1.0.1
  * @website https://hudsongreen.com/
  * @invite https://discord.gg/H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -24,7 +24,8 @@ const config = {
 		],
 		version: "1.0.0",
 		description: "Displays Discord handle next to display name and adds '`@`' symbol in profile card.",
-		github_raw: "https://raw.githubusercontent.com/HudsonGTV/DisplayUsername/DisplayUsername.plugin.js"
+		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js"
+		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsername/DisplayUsername.plugin.js"
 	},
 	changelog: [
 		{
