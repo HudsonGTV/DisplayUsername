@@ -53,20 +53,20 @@ module.exports = !global.ZeresPluginLibrary ? class {
 	}
 	
 	load() {
-        BdApi.showConfirmationModal("Library plugin is needed",
-            `The library plugin needed for AQWERT'sPluginBuilder is missing. Please click Download Now to install it.`, {
-            confirmText: "Download",
-            cancelText: "Cancel",
-            onConfirm: () => {
-                request.get("https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js", (error, response, body) => {
-                    if (error)
-                        return electron.shell.openExternal("https://betterdiscord.net/ghdl?url=https://raw.githubusercontent.com/rauenzi/BDPluginLibrary/master/release/0PluginLibrary.plugin.js");
+		BdApi.showConfirmationModal("Library plugin is needed",
+			`The library plugin needed for AQWERT'sPluginBuilder is missing. Please click Download Now to install it.`, {
+			confirmText: "Download",
+			cancelText: "Cancel",
+			onConfirm: () => {
+				request.get("https://rauenzi.github.io/BDPluginLibrary/release/0PluginLibrary.plugin.js", (error, response, body) => {
+					if (error)
+						return electron.shell.openExternal("https://betterdiscord.net/ghdl?url=https://raw.githubusercontent.com/rauenzi/BDPluginLibrary/master/release/0PluginLibrary.plugin.js");
 
-                    fs.writeFileSync(path.join(BdApi.Plugins.folder, "0PluginLibrary.plugin.js"), body);
-                });
-            }
-        });
-    }
+					fs.writeFileSync(path.join(BdApi.Plugins.folder, "0PluginLibrary.plugin.js"), body);
+				});
+			}
+		});
+	}
 	
 	start() { }
 	stop() { }
@@ -79,17 +79,17 @@ module.exports = !global.ZeresPluginLibrary ? class {
 	class plugin extends Plugin {
 		
 		constructor() {
-            super();
-        }
+			super();
+		}
 
 
-        onStart() {
+		onStart() {
 			
 			// Apply usernames
 			this.applyUsername();
 			
 			// CSS to add @ symbol in profile card and to style username
-            PluginUtilities.addStyle(
+			PluginUtilities.addStyle(
 				"HG_DisplayUsernameCSS", 
 				`
 				/* display @ infront of username */
@@ -120,12 +120,12 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				}
 				`
 			);
-        }
+		}
 
-        onStop() {
-            Patcher.unpatchAll();
-            PluginUtilities.removeStyle("HG_DisplayUsernameCSS");
-        }
+		onStop() {
+			Patcher.unpatchAll();
+			PluginUtilities.removeStyle("HG_DisplayUsernameCSS");
+		}
 		
 		applyUsername() {
 			
