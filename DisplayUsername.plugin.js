@@ -28,10 +28,10 @@ const config = {
 	},
 	changelog: [
 		{
-			title: "Changes",
-			type: "changed",
+			title: "Fixes",
+			type: "fixed",
 			items: [
-				"Added support for displaying usernames next to display name."
+				"Fixed minor bug."
 			]
 		}
 	],
@@ -104,6 +104,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				}
 				.hg-username-handle::after {
 					margin-left: 0.25rem;
+					margin-right: 0.25rem;
 					content: "•";
 				}
 				span.timestamp-p1Df1m {
@@ -122,7 +123,6 @@ module.exports = !global.ZeresPluginLibrary ? class {
 			const [ module, key ] = BdApi.Webpack.getWithKey(BdApi.Webpack.Filters.byStrings("userOverride", "withMentionPrefix"), { searchExports: false });
 			Patcher.after(module, key, (_, args, ret) => {
 				let author = args[0].message.author;
-				console.log(author);
 				ret.props.children.push(
 					React.createElement("span", { class: "hg-username-handle" }, "@" + author.username)
 				);
