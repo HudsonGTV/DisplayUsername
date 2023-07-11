@@ -4,7 +4,7 @@
  * @author HG
  * @authorId 124667638298181632
  * @description Displays Discord handle next to display name and adds '`@`' symbol in profile card.
- * @version 1.0.1
+ * @version 1.0.2
  * @website https://hudsongreen.com/
  * @invite https://discord.gg/H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -22,7 +22,7 @@ const config = {
 			name: "@hg"
 			}
 		],
-		version: "1.0.1",
+		version: "1.0.2",
 		description: "Displays Discord handle next to display name and adds '`@`' symbol in profile card.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsername/DisplayUsername.plugin.js"
@@ -32,7 +32,7 @@ const config = {
 			title: "Fixes",
 			type: "fixed",
 			items: [
-				"Fixed minor bug."
+				"Fixed visual bug causing uneven gap to sometimes appear between username and timestamp."
 			]
 		}
 	],
@@ -105,11 +105,11 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				}
 				.hg-username-handle::after {
 					margin-left: 0.25rem;
-					margin-right: 0.25rem;
 					content: "•";
 				}
-				span.timestamp-p1Df1m {
-					margin-left: 0.0rem;
+				/* fix timestamp margin */
+				.compact-2Nkcau .headerText-2z4IhQ, .cozy-VmLDNB .headerText-2z4IhQ, .roleDot-PzIfeF {
+					margin-right: 0rem;
 				}
 				`
 			);
@@ -125,7 +125,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 			Patcher.after(module, key, (_, args, ret) => {
 				let author = args[0].message.author;
 				ret.props.children.push(
-					React.createElement("span", { class: "hg-username-handle" }, "@" + author.username)
+					React.createElement("span", { class: "hg-username-handle" }, '@' + author.username)
 				);
 			});
 		}
