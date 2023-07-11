@@ -63,11 +63,6 @@ module.exports = !global.ZeresPluginLibrary ? class {
 	start() { }
 	stop() { }
 	
-	// Detect View Switch
-	onSwitch() {
-		console.log("[DisplayUsername] [Debug]: Switched view!");
-	}
-	
 } : (([Plugin, Library]) => {
 	
 	const { DiscordModules, WebpackModules, Patcher, PluginUtilities } = Library;
@@ -82,15 +77,27 @@ module.exports = !global.ZeresPluginLibrary ? class {
 
         onStart() {
 			
-			this.patch();
-
+			// Apply usernames
+			this.applyUsername();
+			
+			// CSS to add @ symbol in profile card and to style username
             PluginUtilities.addStyle(
 				"HG_DisplayUsernameCSS", 
 				`
-				.info-3ddo6z::before {
+				/* display @ infront of username */
+				.info-3ddo6z > span::before {
 					color: #777;
 					content: "@";
 				}
+				/* hide @ infront of nick in friends list */
+				.username-Qpc78p::before {
+					content: "" !important;
+				}
+				/* always show username in friends list */
+				.discriminator-WV5K5s {
+					visibility: visible;
+				}
+				/* style username in messages */
 				.hg-username-handle {
 					margin-left: 0.5rem;
 					font-size: 0.75rem;
@@ -100,7 +107,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 					content: "•";
 				}
 				span.timestamp-p1Df1m {
-					margin-left: 0rem;
+					margin-left: 0.0rem;
 				}
 				`
 			);
@@ -111,7 +118,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
             PluginUtilities.removeStyle("HG_DisplayUsernameCSS");
         }
 		
-		patch() {
+		applyUsername() {
 			const [ module, key ] = BdApi.Webpack.getWithKey(BdApi.Webpack.Filters.byStrings("userOverride", "withMentionPrefix"), { searchExports: false });
 			Patcher.after(module, key, (_, args, ret) => {
 				let author = args[0].message.author;
