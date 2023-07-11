@@ -24,7 +24,7 @@ const config = {
 		],
 		version: "1.0.0",
 		description: "Displays Discord handle next to display name and adds '`@`' symbol in profile card.",
-		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js"
+		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsername/DisplayUsername.plugin.js"
 	},
 	changelog: [
