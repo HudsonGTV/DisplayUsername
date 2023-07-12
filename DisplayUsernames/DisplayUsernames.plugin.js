@@ -4,7 +4,7 @@
  * @author HG
  * @authorId 124667638298181632
  * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
- * @version 1.1.1
+ * @version 1.2.0
  * @website https://hudsongreen.com/
  * @invite https://discord.gg/H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -25,39 +25,39 @@ const config = {
 				twitter_username: "HudsonKazuto"
 			}
 		],
-		version: "1.1.1",
+		version: "1.2.0",
 		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsername/DisplayUsername.plugin.js"
 	},
 	changelog: [
-		{
+		/*{
 			title: "Fixes",
 			type: "fixed",
 			items: [
-				"`[1.1.1]` Handle symbol should now display in profile cards/popups on accounts that are still using discriminators."
+				"`[1.x.x]` foo."
 			]
-		},
-		{
+		},*/
+		/*{
 			title: "Additions",
 			type: "added",
 			items: [
-				"`[1.1.0]` Added the ability to configure plugin (restart required for changes to go into effect, until I can figure out how to auto apply them)."
+				"`[1.x.x]` foobar."
 			]
-		},
-		/*{
+		},*/
+		{
 			title: "Improvements",
 			type: "improved",
 			items: [
-				""
+				"`[1.2.0]` Settings now apply without the need to restart Discord (Except handle symbol changes)."
 			]
-		}*/
+		}
 	],
 	defaultConfig: [
 		{
 			type: "textbox",
 			id: "handlesymbol",
-			name: "Username Handle Prefix Symbol",
+			name: "[Needs restart to fully apply] Username Handle Prefix Symbol",
 			note: "The symbol used as a prefix for usernames (the @ in @username).",
 			placeholder: "Blank for none; default: @",
 			value: "@"
@@ -128,20 +128,37 @@ module.exports = !global.ZeresPluginLibrary ? class {
 			// Apply CSS Styles
 			this.applyStyles();
 			
-			// Apply usernames
-			this.applyUsername();
+			// Bind usernames if enabled
+			if(this.setttings.usernamechat) this.applyUsername();
 			
 		}
 
 		onStop() {
 			Patcher.unpatchAll();
-			PluginUtilities.removeStyle("DisplayUsernames-ChatMessage");
-			PluginUtilities.removeStyle("DisplayUsernames-ProfileCard");
-			PluginUtilities.removeStyle("DisplayUsernames-FriendsList");
+			this.removeStyles();
 		}
 		
+		// Manage settings panel
 		getSettingsPanel() {
-			return this.buildSettingsPanel().getElement();
+			
+			const panel = this.buildSettingsPanel();
+			
+			// Listen for changes in settings
+			panel.addListener((id, val) => {
+				if(id == "usernamechat") {
+					// Check position of check box and bind/unbind accordingly
+					if(val) this.applyUsername();
+					else Patcher.unpatchAll();	// Change this if I add more patches to plugin
+				}
+				if(id == "profilecard" || id == "friendslist") {
+					// Reload CSS
+					this.removeStyles();
+					this.applyStyles();
+				}
+			});
+			
+			// Display settings panel
+			return panel.getElement();
 		}
 		
 		applyStyles() {
@@ -202,10 +219,13 @@ module.exports = !global.ZeresPluginLibrary ? class {
 			);
 		}
 		
+		removeStyles() {
+			PluginUtilities.removeStyle("DisplayUsernames-ChatMessage");
+			PluginUtilities.removeStyle("DisplayUsernames-ProfileCard");
+			PluginUtilities.removeStyle("DisplayUsernames-FriendsList");
+		}
+		
 		applyUsername() {
-			
-			// Check if user disabled chat usernames
-			if(!this.settings.usernamechat) return;
 			
 			const [ module, key ] = BdApi.Webpack.getWithKey(BdApi.Webpack.Filters.byStrings("userOverride", "withMentionPrefix"), { searchExports: false });
 			
