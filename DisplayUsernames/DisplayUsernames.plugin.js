@@ -1,6 +1,6 @@
 /**
  * @name DisplayUsernames
- * @source https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js
+ * @source https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js
  * @author HG
  * @authorId 124667638298181632
  * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
@@ -27,8 +27,8 @@ const config = {
 		],
 		version: "1.2.0",
 		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
-		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js",
-		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsername/DisplayUsername.plugin.js"
+		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js",
+		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsernames/DisplayUsernames.plugin.js"
 	},
 	changelog: [
 		/*{
