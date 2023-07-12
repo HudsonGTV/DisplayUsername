@@ -4,7 +4,7 @@
  * @author HG
  * @authorId 124667638298181632
  * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
- * @version 1.1.0
+ * @version 1.1.1
  * @website https://hudsongreen.com/
  * @invite https://discord.gg/H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -25,25 +25,24 @@ const config = {
 				twitter_username: "HudsonKazuto"
 			}
 		],
-		version: "1.1.0",
+		version: "1.1.1",
 		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsername/DisplayUsername.plugin.js"
 	},
 	changelog: [
-		/*{
+		{
 			title: "Fixes",
 			type: "fixed",
 			items: [
-				"Fixed visual bug causing the wrong seperator to appear in replies.",
-				"Fixed visual bug causing the wrong info to appear when user excecuted a slash command."
+				"`[1.1.1]` Handle symbol should now display in profile cards/popups on accounts that are still using discriminators."
 			]
-		},*/
+		},
 		{
 			title: "Additions",
 			type: "added",
 			items: [
-				"Added the ability to configure plugin (restart required for changes to go into effect, until I can figure out how to auto apply them)."
+				"`[1.1.0]` Added the ability to configure plugin (restart required for changes to go into effect, until I can figure out how to auto apply them)."
 			]
 		},
 		/*{
@@ -180,7 +179,8 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				"DisplayUsernames-ProfileCard",
 				`
 				/* display handle symbol infront of username */
-				.info-3ddo6z > span::before {
+				.info-3ddo6z > span::before, /* polmolo username */
+				.nameTag-H6kSJ0 > span.username-3JLfHz::before /* discriminator username */ {
 					color: #777;
 					content: "${this.settings.handlesymbol}";
 				}
