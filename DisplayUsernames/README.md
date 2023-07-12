@@ -1,5 +1,5 @@
-# DisplayUsername
-Displays username next to message timestamp, puts an at symbol infront of username in profile card, as well as friends list.
+# DisplayUsernames
+Displays usernames next to message timestamp, puts an at symbol in front of usernames in profile cards, as well as in the friends list.
 ## Preview
 Adds username next to message timestamp:
 

@@ -1,9 +1,9 @@
 /**
- * @name DisplayUsername
+ * @name DisplayUsernames
  * @source https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js
  * @author HG
  * @authorId 124667638298181632
- * @description Displays Discord handle next to display name and adds '`@`' symbol in profile card.
+ * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
  * @version 1.0.4
  * @website https://hudsongreen.com/
  * @invite https://discord.gg/H3bebA97tV
@@ -16,14 +16,14 @@ const path = require("path");
 
 const config = {
 	info: {
-		name: "DisplayUsername",
+		name: "DisplayUsernames",
 		authors: [
 		{	
 			name: "HG"
 			}
 		],
 		version: "1.0.4",
-		description: "Displays Discord handle next to display name and adds '`@`' symbol in profile card.",
+		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsername/DisplayUsername.plugin.js"
 	},
