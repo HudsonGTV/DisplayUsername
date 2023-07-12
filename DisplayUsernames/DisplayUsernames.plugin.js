@@ -4,7 +4,7 @@
  * @author HG
  * @authorId 124667638298181632
  * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
- * @version 1.2.0
+ * @version 1.2.1
  * @website https://hudsongreen.com/
  * @invite https://discord.gg/H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -25,19 +25,19 @@ const config = {
 				twitter_username: "HudsonKazuto"
 			}
 		],
-		version: "1.2.0",
+		version: "1.2.1",
 		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsernames/DisplayUsernames.plugin.js"
 	},
 	changelog: [
-		/*{
+		{
 			title: "Fixes",
 			type: "fixed",
 			items: [
-				"`[1.x.x]` foo."
+				"`[1.2.1]` Fixed really silly bug causing usernames to not load."
 			]
-		},*/
+		},
 		/*{
 			title: "Additions",
 			type: "added",
@@ -129,7 +129,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 			this.applyStyles();
 			
 			// Bind usernames if enabled
-			if(this.setttings.usernamechat) this.applyUsername();
+			if(this.settings.usernamechat) this.applyUsername();
 			
 		}
 
