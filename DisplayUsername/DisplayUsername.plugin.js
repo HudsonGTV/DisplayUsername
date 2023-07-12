@@ -4,7 +4,7 @@
  * @author HG
  * @authorId 124667638298181632
  * @description Displays Discord handle next to display name and adds '`@`' symbol in profile card.
- * @version 1.0.3
+ * @version 1.0.4
  * @website https://hudsongreen.com/
  * @invite https://discord.gg/H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -19,10 +19,10 @@ const config = {
 		name: "DisplayUsername",
 		authors: [
 		{	
-			name: "@hg"
+			name: "HG"
 			}
 		],
-		version: "1.0.3",
+		version: "1.0.4",
 		description: "Displays Discord handle next to display name and adds '`@`' symbol in profile card.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsername/DisplayUsername.plugin.js"
@@ -32,16 +32,17 @@ const config = {
 			title: "Fixes",
 			type: "fixed",
 			items: [
-				"Fixed visual bug causing uneven gap to sometimes appear between username and timestamp."
+				"Fixed visual bug causing the wrong seperator to appear in replies.",
+				"Fixed visual bug causing the wrong info to appear when user excecuted a slash command."
 			]
 		},
-		{
+		/*{
 			title: "Changes/Additions",
 			type: "added",
 			items: [
-				"Added support for legacy discriminators."
+				""
 			]
-		}
+		}*/
 	],
 	defaultConfig: []
 };
@@ -54,7 +55,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 	
 	load() {
 		BdApi.showConfirmationModal("Library plugin is needed",
-			`The library plugin needed for AQWERT'sPluginBuilder is missing. Please click Download Now to install it.`, {
+			`The library plugin needed for ZeresPluginLibrary is missing. Please click Download Now to install it.`, {
 			confirmText: "Download",
 			cancelText: "Cancel",
 			onConfirm: () => {
@@ -107,16 +108,26 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				}
 				/* style username in messages */
 				.hg-username-handle {
-					margin-left: 0.5rem;
+					margin-left: 0.25rem;
 					font-size: 0.75rem;
 				}
+				/* seperator dot */
 				.hg-username-handle::after {
 					margin-left: 0.25rem;
 					content: "•";
 				}
-				/* fix timestamp margin */
+				/* fix timestamp margin (discord likes to change it randomly) */
 				.compact-2Nkcau .headerText-2z4IhQ, .cozy-VmLDNB .headerText-2z4IhQ, .roleDot-PzIfeF {
-					margin-right: 0rem;
+					margin-right: 0 !important;
+				}
+				/* change seperator in replies */
+				.repliedMessage-3Z6XBG > .hg-username-handle::after {
+					margin-left: 0;
+					content: ":  ";
+				}
+				/* hide username in command replies */
+				.executedCommand-14-SNW > .hg-username-handle {
+					display: none;
 				}
 				`
 			);
