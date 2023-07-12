@@ -145,15 +145,22 @@ module.exports = !global.ZeresPluginLibrary ? class {
 			
 			// Listen for changes in settings
 			panel.addListener((id, val) => {
-				if(id == "usernamechat") {
-					// Check position of check box and bind/unbind accordingly
-					if(val) this.applyUsername();
-					else Patcher.unpatchAll();	// Change this if I add more patches to plugin
-				}
-				if(id == "profilecard" || id == "friendslist") {
+				switch(id) {
+				case "usernamechat":
+					// Check bool val
+					if(val)
+						this.applyUsername();
+					else
+						Patcher.unpatchAll();	// Change this if I add more patches to plugin
+					break;
+				case "profilecard":
+				case "friendslist":
 					// Reload CSS
 					this.removeStyles();
 					this.applyStyles();
+					break;
+				default:
+					break;
 				}
 			});
 			
