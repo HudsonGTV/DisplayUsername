@@ -4,7 +4,7 @@
  * @author HG
  * @authorId 124667638298181632
  * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
- * @version 1.0.4
+ * @version 1.1.0
  * @website https://hudsongreen.com/
  * @invite https://discord.gg/H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -18,33 +18,73 @@ const config = {
 	info: {
 		name: "DisplayUsernames",
 		authors: [
-		{	
-			name: "HG"
+			{	
+				name: "HG",
+				discord_id: "124667638298181632",
+				github_username: "HudsonGTV",
+				twitter_username: "HudsonKazuto"
 			}
 		],
-		version: "1.0.4",
+		version: "1.1.0",
 		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsername/DisplayUsername.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsername/DisplayUsername.plugin.js"
 	},
 	changelog: [
-		{
+		/*{
 			title: "Fixes",
 			type: "fixed",
 			items: [
 				"Fixed visual bug causing the wrong seperator to appear in replies.",
 				"Fixed visual bug causing the wrong info to appear when user excecuted a slash command."
 			]
+		},*/
+		{
+			title: "Additions",
+			type: "added",
+			items: [
+				"Added the ability to configure plugin (restart required for changes to go into effect, until I can figure out how to auto apply them)."
+			]
 		},
 		/*{
-			title: "Changes/Additions",
-			type: "added",
+			title: "Improvements",
+			type: "improved",
 			items: [
 				""
 			]
 		}*/
 	],
-	defaultConfig: []
+	defaultConfig: [
+		{
+			type: "textbox",
+			id: "handlesymbol",
+			name: "Username Handle Prefix Symbol",
+			note: "The symbol used as a prefix for usernames (the @ in @username).",
+			placeholder: "Blank for none; default: @",
+			value: "@"
+		},
+		{
+			type: "switch",
+			id: "usernamechat",
+			name: "Show Username In Chat",
+			note: "Display the message author's username next to the message timestamp.",
+			value: true
+		},
+		{
+			type: "switch",
+			id: "profilecard",
+			name: "Show Handle Prefix In Profile Card & Friends List",
+			note: "Display the username handle prefix in profile cards/popups as well as the friends list.",
+			value: true
+		},
+		{
+			type: "switch",
+			id: "friendslist",
+			name: "Always Show Friends List Username",
+			note: "Force Discord to always display usernames next to display names in friends list. Turn off for default Discord behavior (only show on hover).",
+			value: true
+		}
+	]
 };
 
 module.exports = !global.ZeresPluginLibrary ? class {
@@ -86,26 +126,30 @@ module.exports = !global.ZeresPluginLibrary ? class {
 
 		onStart() {
 			
+			// Apply CSS Styles
+			this.applyStyles();
+			
 			// Apply usernames
 			this.applyUsername();
 			
-			// CSS to add @ symbol in profile card and to style username
+		}
+
+		onStop() {
+			Patcher.unpatchAll();
+			PluginUtilities.removeStyle("DisplayUsernames-ChatMessage");
+			PluginUtilities.removeStyle("DisplayUsernames-ProfileCard");
+			PluginUtilities.removeStyle("DisplayUsernames-FriendsList");
+		}
+		
+		getSettingsPanel() {
+			return this.buildSettingsPanel().getElement();
+		}
+		
+		applyStyles() {
+			// Chat message username styles (required - configured via applyUsername())
 			PluginUtilities.addStyle(
-				"HG_DisplayUsernameCSS", 
+				"DisplayUsernames-ChatMessage", 
 				`
-				/* display @ infront of username */
-				.info-3ddo6z > span::before {
-					color: #777;
-					content: "@";
-				}
-				/* hide @ infront of nick in friends list */
-				.username-Qpc78p::before {
-					content: "" !important;
-				}
-				/* always show username in friends list */
-				.discriminator-WV5K5s {
-					visibility: visible;
-				}
 				/* style username in messages */
 				.hg-username-handle {
 					margin-left: 0.25rem;
@@ -131,14 +175,37 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				}
 				`
 			);
-		}
-
-		onStop() {
-			Patcher.unpatchAll();
-			PluginUtilities.removeStyle("HG_DisplayUsernameCSS");
+			// Display handle symbol infront of username in profile card/friends list
+			if(this.settings.profilecard) PluginUtilities.addStyle(
+				"DisplayUsernames-ProfileCard",
+				`
+				/* display handle symbol infront of username */
+				.info-3ddo6z > span::before {
+					color: #777;
+					content: "${this.settings.handlesymbol}";
+				}
+				/* hide handle symbol infront of nick in friends list */
+				.username-Qpc78p::before {
+					content: "" !important;
+				}
+				`
+			);
+			// Always display usernames in friends list
+			if(this.settings.friendslist) PluginUtilities.addStyle(
+				"DisplayUsernames-FriendsList",
+				`
+				/* always show username in friends list */
+				.discriminator-WV5K5s {
+					visibility: visible;
+				}
+				`
+			);
 		}
 		
 		applyUsername() {
+			
+			// Check if user disabled chat usernames
+			if(!this.settings.usernamechat) return;
 			
 			const [ module, key ] = BdApi.Webpack.getWithKey(BdApi.Webpack.Filters.byStrings("userOverride", "withMentionPrefix"), { searchExports: false });
 			
@@ -146,7 +213,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				let author = args[0].message.author;
 				let discrim = author.discriminator;
 				ret.props.children.push(
-					React.createElement("span", { class: "hg-username-handle" }, '@' + author.username + (discrim != "0" ? "#" + discrim : ""))
+					React.createElement("span", { class: "hg-username-handle" }, this.settings.handlesymbol + author.username + (discrim != "0" ? "#" + discrim : ""))
 				);
 			});
 			
