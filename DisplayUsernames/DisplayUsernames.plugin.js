@@ -1,13 +1,14 @@
 /**
  * @name DisplayUsernames
- * @source https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js
  * @author HG
  * @authorId 124667638298181632
- * @description Displays Discord handle next to display names in chat and adds handle symbol in profile cards.
+ * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
  * @version 1.2.1
  * @website https://hudsongreen.com/
  * @invite https://discord.gg/H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
+ * @source https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js
+ * @updateUrl https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsernames/DisplayUsernames.plugin.js
  */
  
 const request = require("request");
