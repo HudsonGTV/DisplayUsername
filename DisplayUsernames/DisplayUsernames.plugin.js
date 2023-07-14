@@ -7,7 +7,7 @@
  * @website https://hudsongreen.com/
  * @invite https://discord.gg/H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
- * @source https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js
+ * @source https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/
  * @updateUrl https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsernames/DisplayUsernames.plugin.js
  */
  
@@ -28,7 +28,7 @@ const config = {
 		],
 		version: "1.2.1",
 		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
-		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js",
+		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsernames/DisplayUsernames.plugin.js"
 	},
 	changelog: [
