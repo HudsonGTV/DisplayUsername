@@ -3,7 +3,7 @@
  * @source https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js
  * @author HG
  * @authorId 124667638298181632
- * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
+ * @description Displays Discord handle next to display names in chat and adds handle symbol in profile cards.
  * @version 1.2.1
  * @website https://hudsongreen.com/
  * @invite https://discord.gg/H3bebA97tV
