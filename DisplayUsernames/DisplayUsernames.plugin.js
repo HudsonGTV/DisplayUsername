@@ -6,7 +6,7 @@
  * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
  * @version 1.2.1
  * @website https://hudsongreen.com/
- * @invite https://discord.gg/H3bebA97tV
+ * @invite H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
  * @source https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js
  */
