@@ -4,7 +4,7 @@
  * @authorId 124667638298181632
  * @authorLink https://youtube.com/HudsonGTV
  * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
- * @version 1.2.1
+ * @version 1.2.2
  * @website https://hudsongreen.com/
  * @invite H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -26,7 +26,7 @@ const config = {
 				twitter_username: "HudsonKazuto"
 			}
 		],
-		version: "1.2.1",
+		version: "1.2.2",
 		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsernames/DisplayUsernames.plugin.js"
@@ -36,6 +36,7 @@ const config = {
 			title: "Fixes",
 			type: "fixed",
 			items: [
+				"`[1.2.2]` Fixed display issue with webhooks",
 				"`[1.2.1]` Fixed really silly bug causing usernames to not load."
 			]
 		},
@@ -240,9 +241,11 @@ module.exports = !global.ZeresPluginLibrary ? class {
 			Patcher.after(module, key, (_, args, ret) => {
 				let author = args[0].message.author;
 				let discrim = author.discriminator;
-				ret.props.children.push(
-					React.createElement("span", { class: "hg-username-handle" }, this.settings.handlesymbol + author.username + (discrim != "0" ? "#" + discrim : ""))
-				);
+				// Ensure this is not a webhook or system message
+				if(discrim != "0000")
+					ret.props.children.push(
+						React.createElement("span", { class: "hg-username-handle" }, this.settings.handlesymbol + author.username + (discrim != "0" ? "#" + discrim : ""))
+					);
 			});
 			
 		}
