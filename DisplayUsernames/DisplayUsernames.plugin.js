@@ -4,7 +4,7 @@
  * @authorId 124667638298181632
  * @authorLink https://youtube.com/HudsonGTV
  * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
- * @version 1.2.2
+ * @version 1.3.0
  * @website https://hudsongreen.com/
  * @invite H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -26,7 +26,7 @@ const config = {
 				twitter_username: "HudsonKazuto"
 			}
 		],
-		version: "1.2.2",
+		version: "1.3.0",
 		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsernames/DisplayUsernames.plugin.js"
@@ -36,10 +36,10 @@ const config = {
 			title: "Fixes",
 			type: "fixed",
 			items: [
-				"`[1.2.2]` Fixed display issue with webhooks",
-				"`[1.2.1]` Fixed really silly bug causing usernames to not load."
+				"`[1.3.0]` Fixed display issues caused by recent Discord revamp.",
+				"`[1.3.0]` Fixed issue with handle prefix showing in front of profile nickname in setting window."
 			]
-		},
+		}
 		/*{
 			title: "Additions",
 			type: "added",
@@ -47,13 +47,13 @@ const config = {
 				"`[1.x.x]` foobar."
 			]
 		},*/
-		{
+		/*{
 			title: "Improvements",
 			type: "improved",
 			items: [
 				"`[1.2.0]` Settings now apply without the need to restart Discord (Except handle symbol changes)."
 			]
-		}
+		}*/
 	],
 	defaultConfig: [
 		{
@@ -186,16 +186,16 @@ module.exports = !global.ZeresPluginLibrary ? class {
 					content: "•";
 				}
 				/* fix timestamp margin (discord likes to change it randomly) */
-				.compact-2Nkcau .headerText-2z4IhQ, .cozy-VmLDNB .headerText-2z4IhQ, .roleDot-PzIfeF {
+				.roleDot_c01716, .cozy_f5c119 .headerText_f47574, .compact__54ecc .headerText_f47574 {
 					margin-right: 0 !important;
 				}
 				/* change seperator in replies */
-				.repliedMessage-3Z6XBG > .hg-username-handle::after {
+				.repliedMessage_e2bf4a > .hg-username-handle::after {
 					margin-left: 0;
 					content: ":  ";
 				}
 				/* hide username in command replies */
-				.executedCommand-14-SNW > .hg-username-handle {
+				.executedCommand_e8859a > .hg-username-handle {
 					display: none;
 				}
 				`
@@ -205,13 +205,17 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				"DisplayUsernames-ProfileCard",
 				`
 				/* display handle symbol infront of username */
-				.info-3ddo6z > span::before, /* polmolo username */
-				.nameTag-H6kSJ0 > span.username-3JLfHz::before /* discriminator username */ {
+				.info__40462 > span::before, /* polmolo username */
+				.nameTag__693ff > span.username__2cac3::before /* discriminator username */ {
 					color: #777;
 					content: "${this.settings.handlesymbol}";
 				}
 				/* hide handle symbol infront of nick in friends list */
-				.username-Qpc78p::before {
+				.username__81ee6::before {
+					content: "" !important;
+				}
+				/* hide handle symbol infront of profile card in settings */
+				div > .profileCardUsernameRow__4cbd8 > .info__40462 > span::before {
 					content: "" !important;
 				}
 				`
@@ -221,8 +225,8 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				"DisplayUsernames-FriendsList",
 				`
 				/* always show username in friends list */
-				.discriminator-WV5K5s {
-					visibility: visible;
+				.discriminator_aef524 {
+					visibility: visible !important;
 				}
 				`
 			);
