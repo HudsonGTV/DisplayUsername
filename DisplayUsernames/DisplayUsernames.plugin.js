@@ -4,7 +4,7 @@
  * @authorId 124667638298181632
  * @authorLink https://youtube.com/HudsonGTV
  * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
- * @version 1.3.0
+ * @version 1.3.1
  * @website https://hudsongreen.com/
  * @invite H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -26,7 +26,7 @@ const config = {
 				twitter_username: "HudsonKazuto"
 			}
 		],
-		version: "1.3.0",
+		version: "1.3.1",
 		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsernames/DisplayUsernames.plugin.js"
@@ -36,8 +36,8 @@ const config = {
 			title: "Fixes",
 			type: "fixed",
 			items: [
-				"`[1.3.0]` Fixed display issues caused by recent Discord revamp.",
-				"`[1.3.0]` Fixed issue with handle prefix showing in front of profile nickname in setting window."
+				"`[1.3.1]` Fixed display issues caused by recent Discord revamp.",
+				"`[1.3.1]` Fixed issue with handle prefix showing in front of profile nickname in setting window."
 			]
 		}
 		/*{
