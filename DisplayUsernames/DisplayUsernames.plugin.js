@@ -39,7 +39,7 @@ const config = {
 				"`[1.4.0]` Fixed username prefix not appearing due to recent Discord revamp.",
 				"`[1.4.0]` Fixed bug with username handle in chat being black with certain themes."
 			]
-		}
+		},
 		{
 			title: "Additions",
 			type: "added",
