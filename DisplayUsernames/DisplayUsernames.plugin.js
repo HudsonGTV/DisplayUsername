@@ -4,7 +4,7 @@
  * @authorId 124667638298181632
  * @authorLink https://youtube.com/HudsonGTV
  * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
- * @version 1.3.1
+ * @version 1.4.0
  * @website https://hudsongreen.com/
  * @invite H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -26,7 +26,7 @@ const config = {
 				twitter_username: "HudsonKazuto"
 			}
 		],
-		version: "1.3.1",
+		version: "1.4.0",
 		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsernames/DisplayUsernames.plugin.js"
@@ -36,17 +36,17 @@ const config = {
 			title: "Fixes",
 			type: "fixed",
 			items: [
-				"`[1.3.1]` Fixed display issues caused by recent Discord revamp.",
-				"`[1.3.1]` Fixed issue with handle prefix showing in front of profile nickname in setting window."
+				"`[1.4.0]` Fixed username prefix not appearing due to recent Discord revamp.",
+				"`[1.4.0]` Fixed bug with username handle in chat being black with certain themes."
 			]
 		}
-		/*{
+		{
 			title: "Additions",
 			type: "added",
 			items: [
-				"`[1.x.x]` foobar."
+				"`[1.4.0]` Added ability to change username handle color in chat."
 			]
-		},*/
+		},
 		/*{
 			title: "Improvements",
 			type: "improved",
@@ -63,6 +63,13 @@ const config = {
 			note: "The symbol used as a prefix for usernames (the @ in @username).",
 			placeholder: "Blank for none; default: @",
 			value: "@"
+		},
+		{
+			type: "color",
+			id: "usernamecolor",
+			name: "Username Color",
+			note: "The color used when displaying the username in the chat",
+			value: "#949BA4"
 		},
 		{
 			type: "switch",
@@ -155,6 +162,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 					else
 						Patcher.unpatchAll();	// Change this if I add more patches to plugin
 					break;
+				case "usernamecolor":
 				case "profilecard":
 				case "friendslist":
 					// Reload CSS
@@ -179,10 +187,11 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				.hg-username-handle {
 					margin-left: 0.25rem;
 					font-size: 0.75rem;
+					color: ${this.settings.usernamecolor};
 				}
 				/* seperator dot */
 				.hg-username-handle::after {
-					margin-left: 0.25rem;
+					margin-left: 0.5rem;
 					content: "•";
 				}
 				/* fix timestamp margin (discord likes to change it randomly) */
@@ -190,7 +199,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 					margin-right: 0 !important;
 				}
 				/* change seperator in replies */
-				.repliedMessage_e2bf4a > .hg-username-handle::after {
+				#message-reply-context-1270958154049523753 > .hg-username-handle::after {
 					margin-left: 0;
 					content: ":  ";
 				}
@@ -205,18 +214,10 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				"DisplayUsernames-ProfileCard",
 				`
 				/* display handle symbol infront of username */
-				.info__40462 > span::before, /* polmolo username */
-				.nameTag__693ff > span.username__2cac3::before /* discriminator username */ {
+				span.userTagUsername_c32acf::before, /* profile cards */
+				span.discriminator_f3939d::before /* friends list */ {
 					color: #777;
 					content: "${this.settings.handlesymbol}";
-				}
-				/* hide handle symbol infront of nick in friends list */
-				.username__81ee6::before {
-					content: "" !important;
-				}
-				/* hide handle symbol infront of profile card in settings */
-				div > .profileCardUsernameRow__4cbd8 > .info__40462 > span::before {
-					content: "" !important;
 				}
 				`
 			);
@@ -225,7 +226,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				"DisplayUsernames-FriendsList",
 				`
 				/* always show username in friends list */
-				.discriminator_aef524 {
+				.discriminator_f3939d {
 					visibility: visible !important;
 				}
 				`
