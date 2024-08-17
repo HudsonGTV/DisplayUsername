@@ -4,7 +4,7 @@
  * @authorId 124667638298181632
  * @authorLink https://youtube.com/HudsonGTV
  * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
- * @version 1.4.0
+ * @version 1.4.1
  * @website https://hudsongreen.com/
  * @invite H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -26,7 +26,7 @@ const config = {
 				twitter_username: "HudsonKazuto"
 			}
 		],
-		version: "1.4.0",
+		version: "1.4.1",
 		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsernames/DisplayUsernames.plugin.js"
@@ -36,6 +36,7 @@ const config = {
 			title: "Fixes",
 			type: "fixed",
 			items: [
+				"`[1.4.1]` Fixed bug with seperator symbol in replies",
 				"`[1.4.0]` Fixed username prefix not appearing due to recent Discord revamp.",
 				"`[1.4.0]` Fixed bug with username handle in chat being black with certain themes."
 			]
@@ -44,6 +45,7 @@ const config = {
 			title: "Additions",
 			type: "added",
 			items: [
+				"`[1.4.1]` Added ability to change seperator color seperately.",
 				"`[1.4.0]` Added ability to change username handle color in chat."
 			]
 		},
@@ -69,6 +71,13 @@ const config = {
 			id: "usernamecolor",
 			name: "Username Color",
 			note: "The color used when displaying the username in the chat",
+			value: "#949BA4"
+		},
+		{
+			type: "color",
+			id: "seperatorcolor",
+			name: "Seperator Color",
+			note: "The color used for the symbol that either seperates the username from the message timestamp (@username • timestamp) or the suffix in replies (@username: message)",
 			value: "#949BA4"
 		},
 		{
@@ -163,6 +172,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 						Patcher.unpatchAll();	// Change this if I add more patches to plugin
 					break;
 				case "usernamecolor":
+				case "seperatorcolor":
 				case "profilecard":
 				case "friendslist":
 					// Reload CSS
@@ -193,13 +203,19 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				.hg-username-handle::after {
 					margin-left: 0.5rem;
 					content: "•";
+					color: ${this.settings.seperatorcolor};
 				}
 				/* fix timestamp margin (discord likes to change it randomly) */
 				.roleDot_c01716, .cozy_f5c119 .headerText_f47574, .compact__54ecc .headerText_f47574 {
 					margin-right: 0 !important;
 				}
+				/* change seperator in command replies */
+				.repliedMessage_f9f2ca > .hg-username-handle::after {
+					margin-left: 0;
+					content: "";
+				}
 				/* change seperator in replies */
-				#message-reply-context-1270958154049523753 > .hg-username-handle::after {
+				[id*="message-reply-context-"] > .hg-username-handle::after {
 					margin-left: 0;
 					content: ":  ";
 				}
