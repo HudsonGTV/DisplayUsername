@@ -4,7 +4,7 @@
  * @authorId 124667638298181632
  * @authorLink https://youtube.com/HudsonGTV
  * @description Displays Discord handle next to display names in chat and adds '@' symbol in profile cards.
- * @version 1.4.1
+ * @version 1.4.2
  * @website https://hudsongreen.com/
  * @invite H3bebA97tV
  * @donate https://www.paypal.com/donate/?business=REFHYLZAZUWHJ
@@ -26,7 +26,7 @@ const config = {
 				twitter_username: "HudsonKazuto"
 			}
 		],
-		version: "1.4.1",
+		version: "1.4.2",
 		description: "Displays Discord handle next to display names in chat and adds '`@`' symbol in profile cards.",
 		github: "https://github.com/HudsonGTV/BetterDiscordPlugins/blob/main/DisplayUsernames/DisplayUsernames.plugin.js",
 		github_raw: "https://raw.githubusercontent.com/HudsonGTV/BetterDiscordPlugins/main/DisplayUsernames/DisplayUsernames.plugin.js"
@@ -36,6 +36,7 @@ const config = {
 			title: "Fixes",
 			type: "fixed",
 			items: [
+				"`[1.4.2]` Fixed bug with usernames appearing in command replies",
 				"`[1.4.1]` Fixed bug with seperator symbol in replies",
 				"`[1.4.0]` Fixed username prefix not appearing due to recent Discord revamp.",
 				"`[1.4.0]` Fixed bug with username handle in chat being black with certain themes."
@@ -45,6 +46,7 @@ const config = {
 			title: "Additions",
 			type: "added",
 			items: [
+				"`[1.4.2]` Added ability to hide the username in replies.",
 				"`[1.4.1]` Added ability to change seperator color seperately.",
 				"`[1.4.0]` Added ability to change username handle color in chat."
 			]
@@ -85,6 +87,13 @@ const config = {
 			id: "usernamechat",
 			name: "Show Username In Chat",
 			note: "Display the message author's username next to the message timestamp.",
+			value: true
+		},
+		{
+			type: "switch",
+			id: "showinreplies",
+			name: "Show Username in Chat Replies",
+			note: "Shows the username in the replied message text.",
 			value: true
 		},
 		{
@@ -171,6 +180,7 @@ module.exports = !global.ZeresPluginLibrary ? class {
 					else
 						Patcher.unpatchAll();	// Change this if I add more patches to plugin
 					break;
+				case "showinreplies":
 				case "usernamecolor":
 				case "seperatorcolor":
 				case "profilecard":
@@ -209,19 +219,19 @@ module.exports = !global.ZeresPluginLibrary ? class {
 				.roleDot_c01716, .cozy_f5c119 .headerText_f47574, .compact__54ecc .headerText_f47574 {
 					margin-right: 0 !important;
 				}
-				/* change seperator in command replies */
-				.repliedMessage_f9f2ca > .hg-username-handle::after {
+				/* hide username in command replies */
+				.repliedMessage_f9f2ca > .hg-username-handle {
+					display: none;
+				}
+				/* but dont hide handle in normal replies if user wants them visible */
+				[id*="message-reply-context-"] > .hg-username-handle {
 					margin-left: 0;
-					content: "";
+					display: ${this.settings.showinreplies ? "inline" : "none"};
 				}
 				/* change seperator in replies */
 				[id*="message-reply-context-"] > .hg-username-handle::after {
 					margin-left: 0;
 					content: ":  ";
-				}
-				/* hide username in command replies */
-				.executedCommand_e8859a > .hg-username-handle {
-					display: none;
 				}
 				`
 			);
